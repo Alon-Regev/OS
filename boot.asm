@@ -3,10 +3,6 @@ mov sp, 0x8000
 
 mov bx, hello_msg
 call print
-mov bx, hello_msg
-call print
-
-
 
 jmp $
 
