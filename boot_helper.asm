@@ -2,7 +2,7 @@
 
 ; function prints a string in the bootloader
 ; input: null-terminated string in bx
-print:
+boot_print:
     pusha
 
     mov ah, 0xe ; for print interrupt
@@ -22,7 +22,7 @@ print:
 
 ; function prints a hexadecimal number in the bootloader
 ; input: number in dx
-print_hex:
+boot_print_hex:
     pusha
 
     mov bx, hex_format
