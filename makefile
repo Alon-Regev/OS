@@ -1,4 +1,4 @@
-ASSEMBLY_FILES = boot.asm boot_helper.asm
+ASSEMBLY_FILES = $(wildcard *.asm)
 MAIN_ASSEMBLY = boot.asm
 BOOT_NAME = boot.bin
 
