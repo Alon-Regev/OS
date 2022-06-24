@@ -1,4 +1,5 @@
 [bits 16]
+
 ; function switches cpu to protected mode. jumps to PM_BEGIN afterwards.
 switch_to_protected_mode: 
     cli
@@ -23,4 +24,5 @@ init_protected_mode:
     mov ebp, 0x90000
     mov esp, ebp
 
-    call PM_BEGIN
+    ; jmp to kernel entry
+    call KERNEL_OFFSET

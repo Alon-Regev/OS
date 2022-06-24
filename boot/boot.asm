@@ -1,26 +1,25 @@
+[bits 16]
 [org 0x7C00]
-KERNEL_OFFSET equ 0x1000
 
+KERNEL_OFFSET equ 0x200
+
+; start
 mov [BOOT_DRIVE], dl
 
+; init stack
 mov bp, 0x9000
 mov sp, bp
 
+; welcome msg
 mov bx, BOOT_MSG
 call boot_print
 
+; move to kernel in protected mode
 call load_kernel
 call switch_to_protected_mode
-jmp $
 
-; includes
-%include "boot_helper.asm"
-%include "boot_disk_helper.asm"
-%include "gdt.asm"
-%include "helper.asm"
-%include "protected_mode_switch.asm"
 
-[bits 16]
+; function loads kernel to memory at <KERNEL_OFFSET>
 load_kernel:
     mov bx, KERNEL_LOAD_MSG
     call boot_print
@@ -30,20 +29,18 @@ load_kernel:
     mov dh, 1
     mov dl, [BOOT_DRIVE]
     call disk_load
-    
+
     ret
 
-[bits 32]
-PM_BEGIN:
-    mov ebx, PROTECTED_MODE_MSG
-    call print
-    call KERNEL_OFFSET
-    jmp $
+; includes
+%include "boot/prints.asm"
+%include "boot/disk.asm"
+%include "boot/gdt.asm"
+%include "boot/pm_switch.asm"
 
 ; data
 BOOT_MSG db "Hello! Switching to protected mode...", 0x0A, 0x0D, 0
 KERNEL_LOAD_MSG db "Loading kernel...", 0x0A, 0x0D, 0
-PROTECTED_MODE_MSG db "Hello from protected mode!", 0x0A, 0x0D, 0
 BOOT_DRIVE db 0
 
 ; format boot sector

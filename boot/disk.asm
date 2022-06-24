@@ -1,3 +1,5 @@
+[bits 16]
+
 ; function loads data from disk
 ; input: 
 ;   dh: number of sectors to read
