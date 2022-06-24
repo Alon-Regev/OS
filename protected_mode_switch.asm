@@ -9,8 +9,6 @@ switch_to_protected_mode:
     mov cr0, eax
     jmp CODE_SEG:init_protected_mode
 
-%include "gdt.asm"
-
 [bits 32]
 ; initializes segments for protected mode and jumps to PM_BEGIN
 init_protected_mode:

@@ -26,7 +26,7 @@ boot_print_hex:
     pusha
 
     mov bx, hex_format
-    call print
+    call boot_print
 
     mov ah, 0xe
     mov cx, 4

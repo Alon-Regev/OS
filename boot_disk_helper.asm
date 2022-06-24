@@ -28,16 +28,16 @@ disk_load:
     ; error handling
     disk_read_error:
         mov bx, DISK_ERROR_MSG
-        call print
+        call boot_print
 
         mov dh, ah  ; ah = error code, dl = drive where the error happened
-        call print_hex
+        call boot_print_hex
 
         jmp disk_halt
 
     sector_count_error:
         mov bx, SECTOR_COUNT_ERROR
-        call print
+        call boot_print
         jmp disk_halt
 
     disk_halt:
