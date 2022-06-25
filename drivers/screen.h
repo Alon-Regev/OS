@@ -1,12 +1,15 @@
 #ifndef SCREEN_H
 #define SCREEN_H
 
+#define VGA_ADDRESS 0xB8000
+
 #define VGA_WIDTH 80
+#define VGA_HEIGHT 25
+
 #define SCREEN_CONTROL_PORT 0x3D4
 #define SCREEN_DATA_PORT 0x3D5
 #define CURSOR_HIGH_BYTE 14
 #define CURSOR_LOW_BYTE 15
-#define VGA_ADDRESS 0xB8000
 
 // enum for selecting print colors (either text or background).
 // 4 bit range (16 options)

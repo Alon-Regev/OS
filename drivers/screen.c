@@ -2,16 +2,18 @@
 #include "ports.h"
 
 // color byte macro from text and background colors
-#define colorByte(text, background) (uint8_t)background << 4 + (uint8_t)text
+#define colorByte(text, background) ((uint8_t)background << 4) + (uint8_t)text
+#define DEFAULT_COLOR colorByte(WHITE, BLACK)
 
 // declarations
 void set_cursor_offset(uint16_t offset);
 uint16_t get_cursor_offset();
 uint16_t get_row(uint16_t offset);
 uint16_t get_col(uint16_t offset);
+uint16_t base_char_print(char c, uint16_t offset);
 
 // --- global vars
-uint8_t currentColor = colorByte(WHITE, BLACK);
+uint8_t currentColor = DEFAULT_COLOR;
 uint8_t *VGA = (uint8_t *)VGA_ADDRESS;
 
 // --- public functions
@@ -28,14 +30,36 @@ void move_cursor(int cells)
 
 void print_char(char c)
 {
-    VGA[get_cursor_offset()] = c;
-    move_cursor(1);
+    uint16_t offset = get_cursor_offset();
+    offset = base_char_print(c, offset);
+    set_cursor_offset(offset);
 }
 
-void print_str(char *str);
+void print_str(char *str)
+{
+    uint16_t offset = get_cursor_offset();
+    for (char *c = str; *c != 0; c++)
+    {
+        offset = base_char_print(*c, offset);
+    }
+    set_cursor_offset(offset);
+}
+
+void clear_screen()
+{
+    for (int i = 0; i < VGA_WIDTH * VGA_HEIGHT; i++)
+    {
+        VGA[2 * i] = ' ';
+        VGA[2 * i + 1] = DEFAULT_COLOR;
+    }
+}
+
+void set_color(Color textColor, Color backgroundColor)
+{
+    currentColor = colorByte(textColor, backgroundColor);
+}
+
 void printf(char *format, ...);
-void clear_screen();
-void set_color(Color textColor, Color backgroundColor);
 
 // --- private functions
 
@@ -72,4 +96,14 @@ uint16_t get_row(uint16_t offset)
 uint16_t get_col(uint16_t offset)
 {
     return offset / 2 % VGA_WIDTH;
+}
+
+// function for basic char printing without affecting cursor
+// input: char to print, offset to print in
+// return: new offset after print
+uint16_t base_char_print(char c, uint16_t offset)
+{
+    VGA[offset] = c;
+    VGA[offset + 1] = currentColor;
+    return offset + 2;
 }

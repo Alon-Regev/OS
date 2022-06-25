@@ -2,10 +2,7 @@
 
 void main()
 {
-    set_cursor(2, 0);
-    print_char('X');
-    move_cursor(1);
-    print_char('Y');
-    move_cursor(2);
-    print_char('Z');
+    clear_screen();
+    set_cursor(0, 0);
+    print_str("Hello world!");
 }
