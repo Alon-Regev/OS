@@ -26,7 +26,7 @@ kernel.bin: kernel_entry.o $(KERNEL_OBJECTS)
 	head -c$$((s1 - s0)) /dev/zero >> kernel.bin;\
 	echo kernel is $$((s1 / 512)) sectors
 
-kernel.elf: kernel_entry.o kernel.o
+kernel.elf: kernel_entry.o $(KERNEL_OBJECTS)
 	@ld -m elf_i386 -o $@ -Ttext=0x1000 $^ --entry 0
 
 # --- BOOT
@@ -42,10 +42,12 @@ os_image.bin: boot_sector.bin kernel.bin
 
 # --- COMMANDS
 run: os_image.bin
-	-@qemu-system-x86_64 -drive format=raw,file=os_image.bin 2>/dev/null
+	-@qemu-system-x86_64 -fda os_image.bin 2>/dev/null
 
 clean: 
-	-@rm *.bin *.o
+	-@find . -type f -name '*.o' -delete
+	-@find . -type f -name '*.bin' -delete
+	-@find . -type f -name '*.elf' -delete
 
 debug: os_image.bin kernel.elf
 	-@qemu-system-i386 -s -S -fda os_image.bin &

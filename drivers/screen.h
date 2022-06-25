@@ -1,8 +1,12 @@
+#ifndef SCREEN_H
+#define SCREEN_H
+
 #define VGA_WIDTH 80
 #define SCREEN_CONTROL_PORT 0x3D4
 #define SCREEN_DATA_PORT 0x3D5
 #define CURSOR_HIGH_BYTE 14
 #define CURSOR_LOW_BYTE 15
+#define VGA_ADDRESS 0xB8000
 
 // enum for selecting print colors (either text or background).
 // 4 bit range (16 options)
@@ -31,6 +35,11 @@ typedef enum Color
 // return: none
 void set_cursor(int col, int row);
 
+// function moves cursor by <n> cells.
+// input: number of cells to move
+// return: none
+void move_cursor(int cells);
+
 // function prints string on screen at cursor position.
 // input: string to print
 // return: none
@@ -55,3 +64,5 @@ void clear_screen();
 // input: text and background colors to use
 // return: none
 void set_color(Color textColor, Color backgroundColor);
+
+#endif

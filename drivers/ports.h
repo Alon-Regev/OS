@@ -1,3 +1,6 @@
+#ifndef PORTS_H
+#define PORTS_H
+
 #include <stdint.h>
 
 // returns byte from specified port
@@ -19,3 +22,5 @@ void port_byte_out(uint16_t port, uint8_t data);
 // input: port address, word to send
 // return: none
 void port_word_out(uint16_t port, uint16_t data);
+
+#endif

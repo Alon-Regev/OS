@@ -2,7 +2,7 @@
 [org 0x7C00]
 
 KERNEL_OFFSET equ 0x1000
-KERNEL_SECTOR_COUNT equ 2
+KERNEL_SECTOR_COUNT equ 50
 
 ; start
 mov [BOOT_DRIVE], dl
