@@ -16,9 +16,9 @@ char *strcat(char *dest, const char *src)
     return strncat(dest, src, MAX_N);
 }
 
-char *strchr(const char *str, int c)
+const char *strchr(const char *str, int c)
 {
-    for (char *p = str; *p != 0; p++)
+    for (const char *p = str; *p != 0; p++)
     {
         if (*p == c)
             return p;
@@ -87,9 +87,9 @@ int strlen(const char *str)
     return len;
 }
 
-char *strpbrk(const char *str1, const char *str2)
+const char *strpbrk(const char *str1, const char *str2)
 {
-    for (char *p = str1; *p != 0; p++)
+    for (const char *p = str1; *p != 0; p++)
     {
         if(strchr(str2, *p))
         {   // p is first char which appears in str2
@@ -100,10 +100,10 @@ char *strpbrk(const char *str1, const char *str2)
     return NULL; 
 }
 
-char *strrchr(const char *str, int c)
+const char *strrchr(const char *str, int c)
 {
-    char *ret = NULL;
-    for (char *p = str; *p != 0; p++)
+    const char *ret = NULL;
+    for (const char *p = str; *p != 0; p++)
     {
         if (*p == c)
             ret = p;
@@ -124,7 +124,7 @@ int strspn(const char *str1, const char *str2)
     return i;
 }
 
-char *strstr(const char *haystack, const char *needle)
+const char *strstr(const char *haystack, const char *needle)
 {
     while(*haystack != 0)
     {

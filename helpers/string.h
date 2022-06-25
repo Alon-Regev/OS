@@ -11,7 +11,7 @@ char* strncat(char *dest, const char *src, int n);
 char* strcat(char *dest, const char *src);
 
 // finds first occurance of char c in string. returns it's pointer or NULL if not found.
-char *strchr(const char *str, int c);
+const char *strchr(const char *str, int c);
 
 // compares up to <n> bytes of two strings. negative if first is bigger, positive if second, zero if equal.
 int strncmp(const char *str1, const char *str2, int n);
@@ -32,15 +32,15 @@ int strcspn(const char *str1, const char *str2);
 int strlen(const char *str);
 
 // finds the first character in the string str1 that matches any character specified in str2.
-char *strpbrk(const char *str1, const char *str2);
+const char *strpbrk(const char *str1, const char *str2);
 
 // searches for the last occurrence of the character c (an unsigned char) in the string pointed to by the argument str.
-char *strrchr(const char *str, int c);
+const char *strrchr(const char *str, int c);
 
 // calculates the length of the initial segment of str1 which consists entirely of characters in str2.
 int strspn(const char *str1, const char *str2);
 
 // finds the first occurrence of the entire string needle (not including the terminating null character) which appears in the string haystack.
-char *strstr(const char *haystack, const char *needle);
+const char *strstr(const char *haystack, const char *needle);
 
 #endif
