@@ -6,6 +6,9 @@
 #define VGA_WIDTH 80
 #define VGA_HEIGHT 25
 
+#define TAB_SIZE 4
+#define TAB_OFFSET 2 * TAB_SIZE
+
 #define SCREEN_CONTROL_PORT 0x3D4
 #define SCREEN_DATA_PORT 0x3D5
 #define CURSOR_HIGH_BYTE 14
