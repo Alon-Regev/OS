@@ -11,7 +11,7 @@ kernel_entry.o: kernel/kernel_entry.asm
 
 KERNEL_SRC_FILES := $(shell find $(KERNEL_DIR) -name "*.c")
 kernel.o: $(KERNEL_SRC_FILES)
-	@gcc -m32 -ffreestanding -c $< -o $@ -fno-pic
+	@gcc -g -m32 -ffreestanding -c $< -o $@ -fno-pic
 
 kernel.bin: kernel_entry.o kernel.o
 	@ld -m elf_i386 -o $@ -Ttext=0x1000 $^ --oformat binary --entry 0
@@ -21,6 +21,8 @@ kernel.bin: kernel_entry.o kernel.o
 	head -c$$((s1 - s0)) /dev/zero >> kernel.bin;\
 	echo kernel is $$((s1 / 512)) sectors
 
+kernel.elf: kernel_entry.o kernel.o
+	@ld -m elf_i386 -o $@ -Ttext=0x1000 $^ --entry 0
 
 # --- BOOT
 BOOT_ASM_FILES := $(shell find $(BOOT_DIR) -name "*.asm")
@@ -39,3 +41,7 @@ run: os_image.bin
 
 clean: 
 	-@rm *.bin *.o
+
+debug: os_image.bin kernel.elf
+	-@qemu-system-i386 -s -S -fda os_image.bin &
+	-@gdb -ex "target remote localhost:1234" -ex "symbol-file kernel.elf"
