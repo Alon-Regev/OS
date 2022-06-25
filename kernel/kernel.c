@@ -4,5 +4,7 @@ void main()
 {
     clear_screen();
     set_cursor(0, 0);
-    print_str("Hello\tworld!");
+    int x = 3;
+    char c = 'X';
+    printf("char: %c, int: %d", x, c);
 }

@@ -5,14 +5,15 @@ KERNEL_DIR := kernel
 KERNEL_MAIN := $(KERNEL_DIR)/kernel.c
 
 DRIVERS_DIR := drivers
+HELPERS_DIR := helpers
 
 
 # --- KERNEL
 kernel_entry.o: kernel/kernel_entry.asm
 	@nasm $< -f elf -o $@
 
-KERNEL_SOURCES := $(wildcard $(KERNEL_DIR)/*.c $(DRIVERS_DIR)/*.c)
-KERNEL_HEADERS := $(wildcard $(KERNEL_DIR)/*.h $(DRIVERS_DIR)/*.h)
+KERNEL_SOURCES := $(wildcard $(KERNEL_DIR)/*.c $(DRIVERS_DIR)/*.c $(HELPERS_DIR)/*.c)
+KERNEL_HEADERS := $(wildcard $(KERNEL_DIR)/*.h $(DRIVERS_DIR)/*.h $(HELPERS_DIR)/*.h)
 KERNEL_OBJECTS := $(KERNEL_SOURCES:.c=.o)
 
 %.o: %.c $(KERNEL_HEADERS)
