@@ -2,6 +2,7 @@
 [org 0x7C00]
 
 KERNEL_OFFSET equ 0x1000
+KERNEL_SECTOR_COUNT equ 1
 
 ; start
 mov [BOOT_DRIVE], dl
@@ -26,7 +27,7 @@ load_kernel:
 
     ; get kernel from disk
     mov bx, KERNEL_OFFSET
-    mov dh, 1
+    mov dh, KERNEL_SECTOR_COUNT
     mov dl, [BOOT_DRIVE]
     call disk_load
 
