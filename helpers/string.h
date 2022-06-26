@@ -43,4 +43,10 @@ int strspn(const char *str1, const char *str2);
 // finds the first occurrence of the entire string needle (not including the terminating null character) which appears in the string haystack.
 const char *strstr(const char *haystack, const char *needle);
 
+// converts integer value to string in some base (up to 16).
+char *itoa(int value, char *str, int base);
+
+// converts floating point value to string.
+char *ftoa(float value, char *str, int afterPoint);
+
 #endif

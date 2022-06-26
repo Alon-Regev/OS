@@ -1,5 +1,19 @@
 #include "string.h"
 
+// --- private functions
+void reverse_str(char* str)
+{
+    int len = strlen(str);
+    for (int i = 0; i < len / 2; i++)
+    {
+        char temp = str[i];
+        str[i] = str[len - i - 1];
+        str[len - i - 1] = temp;
+    }
+}
+
+// --- public functions
+
 char *strncat(char *dest, const char *src, int n)
 {
     int destLen = strlen(dest), i = 0;
@@ -83,6 +97,7 @@ int strlen(const char *str)
     while(*str != 0)
     {
         len++;
+        str++;
     }
     return len;
 }
@@ -134,4 +149,69 @@ const char *strstr(const char *haystack, const char *needle)
         }
     }
     return NULL;
+}
+
+char *itoa(int value, char *str, int base)
+{
+    if(value == 0)
+    {
+        str[0] = '0';
+        str[1] = 0;
+        return str;
+    }
+
+    int isNegative = 0;
+    if (base == 10 && value < 0)
+    {
+        value = -value;
+        isNegative = 1;
+    }
+
+    const char* digits = "0123456789ABCDEF";
+    int i = 0;
+    while (value != 0)
+    {
+        str[i++] = digits[value % base];
+        value /= base;
+    }
+    if(isNegative)
+        str[i++] = '-';
+    str[i] = 0;
+
+    reverse_str(str);
+
+    return str;
+}
+
+char *ftoa(float value, char *str, int afterPoint)
+{
+    int isNegative = value < 0;
+    if(isNegative)
+        value = -value;
+
+    int integerPart = (int)value;
+    value -= integerPart;
+    for (int i = 0; i < afterPoint; i++)
+        value *= 10;
+    int decimalPart = (int)value;
+    // integer part to string
+    char *p = str;
+    if(isNegative)
+        *(p++) = '-';
+
+    itoa(integerPart, p, 10);
+    p += strlen(p);
+
+    *(p++) = '.';
+
+    itoa(decimalPart, p, 10);
+    int len = strlen(p);
+    p += len;
+
+    // add trailing zeros
+    for (int i = afterPoint - len; i > 0; i--)
+        *(p++) = '0';
+    *p = 0;
+
+    return str;
 }
