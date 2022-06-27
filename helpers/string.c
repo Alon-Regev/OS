@@ -228,6 +228,8 @@ void sprintf(char *str, const char *format, ...)
         if (*p == '%')
         {
             p++;
+            // get width and precision
+            int width = 0, precision = 0;
             // check type
             switch (*p)
             {
@@ -245,15 +247,15 @@ void sprintf(char *str, const char *format, ...)
                 ftoa(va_arg(args, double), str, 2);
                 break;
             case 's':
-            {
-                const char *temp = va_arg(args, const char *);
-                strcpy(str, temp);
+                strcpy(str, va_arg(args, const char *));
                 break;
-            }
             case 'c':
                 str[0] = va_arg(args, int);
                 str[1] = 0;
                 break;
+            case '%':
+                str[0] = '%';
+                str[1] = 0;
             default:
                 break;
             }
