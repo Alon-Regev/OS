@@ -49,4 +49,7 @@ char *itoa(int value, char *str, int base);
 // converts floating point value to string.
 char *ftoa(float value, char *str, int afterPoint);
 
+// creates formatted string and writes it in a buffer
+void sprintf(char *str, const char *format, ...);
+
 #endif

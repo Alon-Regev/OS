@@ -1,7 +1,9 @@
 #include "string.h"
 
+#include <stdarg.h>
+
 // --- private functions
-void reverse_str(char* str)
+void reverse_str(char *str)
 {
     int len = strlen(str);
     for (int i = 0; i < len / 2; i++)
@@ -63,7 +65,7 @@ int strcmp(const char *str1, const char *str2)
 char *strncpy(char *dest, const char *src, int n)
 {
     char *p = dest;
-    while (src != 0 && n-- > 0)
+    while (*src != 0 && n-- > 0)
     {
         *p = *src;
         p++;
@@ -83,8 +85,8 @@ int strcspn(const char *str1, const char *str2)
     int i = 0;
     for (; str1[i] != 0; i++)
     {
-        if(strchr(str2, str1[i]))
-        {   // str1 char in str2, ended
+        if (strchr(str2, str1[i]))
+        { // str1 char in str2, ended
             return i;
         }
     }
@@ -94,7 +96,7 @@ int strcspn(const char *str1, const char *str2)
 int strlen(const char *str)
 {
     int len = 0;
-    while(*str != 0)
+    while (*str != 0)
     {
         len++;
         str++;
@@ -106,13 +108,13 @@ const char *strpbrk(const char *str1, const char *str2)
 {
     for (const char *p = str1; *p != 0; p++)
     {
-        if(strchr(str2, *p))
-        {   // p is first char which appears in str2
+        if (strchr(str2, *p))
+        { // p is first char which appears in str2
             return p;
         }
     }
     // not found
-    return NULL; 
+    return NULL;
 }
 
 const char *strrchr(const char *str, int c)
@@ -131,8 +133,8 @@ int strspn(const char *str1, const char *str2)
     int i = 0;
     for (; str1[i] != 0; i++)
     {
-        if(!strchr(str2, str1[i]))
-        {   // str1 char not in str2, ended
+        if (!strchr(str2, str1[i]))
+        { // str1 char not in str2, ended
             return i;
         }
     }
@@ -141,9 +143,9 @@ int strspn(const char *str1, const char *str2)
 
 const char *strstr(const char *haystack, const char *needle)
 {
-    while(*haystack != 0)
+    while (*haystack != 0)
     {
-        if(strcmp(haystack, needle) == 0)
+        if (strcmp(haystack, needle) == 0)
         {
             return haystack;
         }
@@ -153,7 +155,7 @@ const char *strstr(const char *haystack, const char *needle)
 
 char *itoa(int value, char *str, int base)
 {
-    if(value == 0)
+    if (value == 0)
     {
         str[0] = '0';
         str[1] = 0;
@@ -167,14 +169,14 @@ char *itoa(int value, char *str, int base)
         isNegative = 1;
     }
 
-    const char* digits = "0123456789ABCDEF";
+    const char *digits = "0123456789ABCDEF";
     int i = 0;
     while (value != 0)
     {
         str[i++] = digits[value % base];
         value /= base;
     }
-    if(isNegative)
+    if (isNegative)
         str[i++] = '-';
     str[i] = 0;
 
@@ -186,7 +188,7 @@ char *itoa(int value, char *str, int base)
 char *ftoa(float value, char *str, int afterPoint)
 {
     int isNegative = value < 0;
-    if(isNegative)
+    if (isNegative)
         value = -value;
 
     int integerPart = (int)value;
@@ -196,7 +198,7 @@ char *ftoa(float value, char *str, int afterPoint)
     int decimalPart = (int)value;
     // integer part to string
     char *p = str;
-    if(isNegative)
+    if (isNegative)
         *(p++) = '-';
 
     itoa(integerPart, p, 10);
@@ -214,4 +216,55 @@ char *ftoa(float value, char *str, int afterPoint)
     *p = 0;
 
     return str;
+}
+
+void sprintf(char *str, const char *format, ...)
+{
+    va_list args;
+    va_start(args, format);
+
+    for (const char *p = format; *p != 0; p++)
+    {
+        if (*p == '%')
+        {
+            p++;
+            // check type
+            switch (*p)
+            {
+            case 'd':
+                itoa(va_arg(args, int), str, 10);
+                break;
+            case 'p':
+                str[0] = '0';
+                str[1] = 'x';
+                str += 2;
+            case 'x':
+                itoa(va_arg(args, int), str, 16);
+                break;
+            case 'f':
+                ftoa(va_arg(args, double), str, 2);
+                break;
+            case 's':
+            {
+                const char *temp = va_arg(args, const char *);
+                strcpy(str, temp);
+                break;
+            }
+            case 'c':
+                str[0] = va_arg(args, int);
+                str[1] = 0;
+                break;
+            default:
+                break;
+            }
+            str += strlen(str);
+        }
+        else
+        {
+            *str = *p;
+            str++;
+        }
+    }
+
+    va_end(args);
 }
