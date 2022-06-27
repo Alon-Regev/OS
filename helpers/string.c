@@ -218,6 +218,19 @@ char *ftoa(float value, char *str, int afterPoint)
     return str;
 }
 
+int atoi(const char *str)
+{
+    int res = 0;
+ 
+    for (int i = 0; '0' <= str[i] && str[i] <= '9'; i++)
+    {
+        res *= 10;
+        res += str[i] - '0';
+    }
+
+    return res;
+}
+
 void sprintf(char *str, const char *format, ...)
 {
     va_list args;
@@ -228,8 +241,23 @@ void sprintf(char *str, const char *format, ...)
         if (*p == '%')
         {
             p++;
-            // get width and precision
-            int width = 0, precision = 0;
+            // get width and precision (%w.p?)
+            int width = -1, precision = -1;
+            for (int i = 0; i < 2; i++)
+            {
+                if (*p == '.')
+                {
+                    p++;
+                    precision = atoi(p);
+                }
+                else if(i == 0)
+                {
+                    width = atoi(p);
+                }
+                while ('0' <= *p && *p <= '9')
+                    p++;
+            }
+
             // check type
             switch (*p)
             {
@@ -239,15 +267,20 @@ void sprintf(char *str, const char *format, ...)
             case 'p':
                 str[0] = '0';
                 str[1] = 'x';
-                str += 2;
+                itoa(va_arg(args, int), str + 2, 16);
+                break;
             case 'x':
                 itoa(va_arg(args, int), str, 16);
                 break;
             case 'f':
-                ftoa(va_arg(args, double), str, 2);
+                if(precision == -1)
+                    precision = 2;
+                ftoa(va_arg(args, double), str, precision);
                 break;
             case 's':
-                strcpy(str, va_arg(args, const char *));
+                if(precision == -1)
+                    precision = MAX_N;
+                strncpy(str, va_arg(args, const char *), precision);
                 break;
             case 'c':
                 str[0] = va_arg(args, int);
@@ -259,7 +292,15 @@ void sprintf(char *str, const char *format, ...)
             default:
                 break;
             }
-            str += strlen(str);
+            // handle width
+            int len = strlen(str);
+            str += len;
+            for (int i = 0; i < width - len; i++)
+            {
+                *str = ' ';
+                str++;
+            }
+            *str = 0;
         }
         else
         {
