@@ -4,6 +4,8 @@
 #define MAX_N __INT32_MAX__
 #define NULL 0
 
+#include <stdarg.h>
+
 // appends up to <n> chars from src to string dest. returns dest.
 char* strncat(char *dest, const char *src, int n);
 
@@ -51,6 +53,9 @@ char *ftoa(float value, char *str, int afterPoint);
 
 // extract integer value from string (in decimal base).
 int atoi(const char *str);
+
+// creates formatted string and writes it in a buffer using a variable list
+void vsprintf(char *str, const char *format, va_list args);
 
 // creates formatted string and writes it in a buffer
 void sprintf(char *str, const char *format, ...);

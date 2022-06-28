@@ -62,7 +62,14 @@ void set_color(Color textColor, Color backgroundColor)
 
 void printf(char *format, ...)
 {
-    
+    char str[256] = {0};
+    va_list args;
+    va_start(args, format);
+
+    vsprintf(str, format, args);
+    print_str(str);
+
+    va_end(args);
 }
 
 // --- private functions

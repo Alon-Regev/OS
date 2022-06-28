@@ -1,7 +1,5 @@
 #include "string.h"
 
-#include <stdarg.h>
-
 // --- private functions
 void reverse_str(char *str)
 {
@@ -231,11 +229,8 @@ int atoi(const char *str)
     return res;
 }
 
-void sprintf(char *str, const char *format, ...)
+void vsprintf(char *str, const char *format, va_list args)
 {
-    va_list args;
-    va_start(args, format);
-
     for (const char *p = format; *p != 0; p++)
     {
         if (*p == '%')
@@ -308,6 +303,14 @@ void sprintf(char *str, const char *format, ...)
             str++;
         }
     }
+}
+
+void sprintf(char *str, const char *format, ...)
+{
+    va_list args;
+    va_start(args, format);
+
+    vsprintf(str, format, args);
 
     va_end(args);
 }
