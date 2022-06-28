@@ -6,5 +6,10 @@ void main()
     clear_screen();
     set_cursor(0, 0);
 
-    printf("number: %d, float: %.2f, string: %s and more...", 123, 4.56, "hello");
+    for (int i = 0; i < 100; i++)
+    {
+        printf("Hello World %d\n", i);
+        for (int t = 0; t < 1e6; t++)
+            ;
+    }
 }

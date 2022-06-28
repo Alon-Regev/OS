@@ -17,7 +17,7 @@ KERNEL_HEADERS := $(wildcard $(KERNEL_DIR)/*.h $(DRIVERS_DIR)/*.h $(HELPERS_DIR)
 KERNEL_OBJECTS := $(KERNEL_SOURCES:.c=.o)
 
 %.o: %.c $(KERNEL_HEADERS)
-	@gcc -g -m32 -ffreestanding -c $< -o $@ -fno-pic
+	@gcc -g -m32 -nostdlib -ffreestanding -c $< -o $@ -fno-pic
 
 kernel.bin: kernel_entry.o $(KERNEL_OBJECTS)
 	@ld -m elf_i386 -o $@ -Ttext=0x1000 $^ --oformat binary --entry 0

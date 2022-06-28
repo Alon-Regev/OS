@@ -78,6 +78,14 @@ char *strcpy(char *dest, const char *src)
     return strncpy(dest, src, MAX_N);
 }
 
+void* memcpy(void* dest, const void* src, int n)
+{
+    for (int i = 0; i < n; i++)
+    {
+        ((char*)dest)[i] = ((char*)src)[i];
+    }
+}
+
 int strcspn(const char *str1, const char *str2)
 {
     int i = 0;

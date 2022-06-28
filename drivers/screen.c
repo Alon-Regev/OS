@@ -114,20 +114,44 @@ uint16_t get_col(uint16_t offset)
 // return: new offset after print
 uint16_t base_char_print(char c, uint16_t offset)
 {
-    switch(c)
+    int newOffset;
+    switch (c)
     {
-        case '\n':
-            return 2 * (get_row(offset) + 1) * VGA_WIDTH;
-        case '\r':
-            return 2 * get_row(offset) * VGA_WIDTH;
-        case '\t':
-            return offset / TAB_OFFSET * TAB_OFFSET + TAB_OFFSET;
-        case '\b':
-            if(get_col(offset) != 0)
-                return offset - 2;
-        default:
-            VGA[offset] = c;
-            VGA[offset + 1] = currentColor;
-            return offset + 2;
+    case '\n':
+        newOffset = 2 * (get_row(offset) + 1) * VGA_WIDTH;
+        break;
+    case '\r':
+        newOffset = 2 * get_row(offset) * VGA_WIDTH;
+        break;
+    case '\t':
+        newOffset = offset / TAB_OFFSET * TAB_OFFSET + TAB_OFFSET;
+        break;
+    case '\b':
+        if (get_col(offset) != 0)
+            newOffset = offset - 2;
+        break;
+    default:
+        VGA[offset] = c;
+        VGA[offset + 1] = currentColor;
+        newOffset = offset + 2;
+        break;
     }
+    // check scroll
+    if (newOffset >= VGA_WIDTH * VGA_HEIGHT * 2)
+    {
+        // copy rows upwards
+        int rowLen = VGA_WIDTH * 2; // row size
+        for (int i = 1; i < VGA_HEIGHT; i++)
+        {
+            memcpy(VGA + rowLen * (i - 1), VGA + rowLen * i, rowLen);
+        }
+        // blank last line
+        char *lastLine = VGA + VGA_WIDTH * 2 * (VGA_HEIGHT - 1);
+        for (int i = 0; i < VGA_WIDTH; i++)
+        {
+            lastLine[2 * i] = lastLine[2 * i + 1] = 0;
+        }
+        newOffset -= rowLen;
+    }
+    return newOffset;
 }
