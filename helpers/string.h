@@ -30,6 +30,9 @@ char *strcpy(char *dest, const char *src);
 // copies n bytes from of src into destination. returns dest.
 void *memcpy(void *dest, const void *src, int n);
 
+// initialized first <n> bytes of str with char <c>.
+void *memset(void *str, int c, int n);
+
 // calculates the length of the initial segment of str1 which consists entirely of characters not in str2.
 int strcspn(const char *str1, const char *str2);
 

@@ -13,11 +13,15 @@ kernel_entry.o: kernel/kernel_entry.asm
 	@nasm $< -f elf -o $@
 
 KERNEL_SOURCES := $(wildcard $(KERNEL_DIR)/*.c $(DRIVERS_DIR)/*.c $(HELPERS_DIR)/*.c)
+KERNEL_ASM := $(wildcard $(KERNEL_DIR)/*.asm)
 KERNEL_HEADERS := $(wildcard $(KERNEL_DIR)/*.h $(DRIVERS_DIR)/*.h $(HELPERS_DIR)/*.h)
-KERNEL_OBJECTS := $(KERNEL_SOURCES:.c=.o)
+KERNEL_OBJECTS := $(KERNEL_SOURCES:.c=.o) $(KERNEL_ASM:.asm=.o)
 
 %.o: %.c $(KERNEL_HEADERS)
 	@gcc -g -m32 -nostdlib -ffreestanding -c $< -o $@ -fno-pic
+
+%.o: %.asm
+	@nasm $< -f elf -o $@
 
 kernel.bin: kernel_entry.o $(KERNEL_OBJECTS)
 	@ld -m elf_i386 -o $@ -Ttext=0x1000 $^ --oformat binary --entry 0
