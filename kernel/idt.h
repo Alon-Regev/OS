@@ -1,7 +1,7 @@
 #ifndef IDT_H
 #define IDT_H
 
-#include "../helpers/int_types.h"
+#include "../libc/int_types.h"
 
 #define KERNEL_CS 0x08
 #define IDT_ENTRY_FLAGS 0x8E

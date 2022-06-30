@@ -1,7 +1,7 @@
 #ifndef PORTS_H
 #define PORTS_H
 
-#include "../helpers/int_types.h"
+#include "../libc/int_types.h"
 
 // returns byte from specified port
 // input: port address

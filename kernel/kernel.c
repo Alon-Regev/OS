@@ -1,5 +1,5 @@
 #include "../drivers/screen.h"
-#include "../helpers/string.h"
+#include "../libc/string.h"
 #include "idt.h"
 #include "timer.h"
 

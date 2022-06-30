@@ -1,5 +1,6 @@
 #include "idt.h"
-#include "../helpers/string.h"
+#include "../libc/memory.h"
+#include "../libc/string.h"
 #include "../drivers/screen.h"
 #include "../drivers/ports.h"
 

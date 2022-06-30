@@ -1,6 +1,7 @@
 #include "screen.h"
 #include "ports.h"
-#include "../helpers/string.h"
+#include "../libc/string.h"
+#include "../libc/memory.h"
 
 // color byte macro from text and background colors
 #define colorByte(text, background) ((uint8_t)background << 4) + (uint8_t)text

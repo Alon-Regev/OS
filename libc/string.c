@@ -1,4 +1,5 @@
 #include "string.h"
+#include "memory.h"
 
 // --- private functions
 void reverse_str(char *str)
@@ -76,23 +77,6 @@ char *strncpy(char *dest, const char *src, int n)
 char *strcpy(char *dest, const char *src)
 {
     return strncpy(dest, src, MAX_N);
-}
-
-void* memcpy(void* dest, const void* src, int n)
-{
-    for (int i = 0; i < n; i++)
-    {
-        ((char*)dest)[i] = ((char*)src)[i];
-    }
-}
-
-void* memset(void* str, int c, int n)
-{
-    for (int i = 0; i < n; i++)
-    {
-        ((unsigned char *)str)[i] = c;
-    }
-    return str;
 }
 
 int strcspn(const char *str1, const char *str2)

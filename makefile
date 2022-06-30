@@ -5,7 +5,7 @@ KERNEL_DIR := kernel
 KERNEL_MAIN := $(KERNEL_DIR)/kernel.c
 
 DRIVERS_DIR := drivers
-HELPERS_DIR := helpers
+HELPERS_DIR := libc
 
 
 # --- KERNEL
