@@ -6,6 +6,7 @@ global load_idt
 load_idt:
     mov eax, [esp + 4]  ; idt pointer param
     lidt [eax]
+    sti
     ret
 
 ; common isr handler. saves state and sets up kernel mode segments.
@@ -55,11 +56,11 @@ irq_common_handler:
 
     call irq_handler
 
-    pop eax
-    mov ds, ax
-    mov es, ax
-    mov fs, ax
-    mov gs, ax
+    pop ebx
+    mov ds, bx
+    mov es, bx
+    mov fs, bx
+    mov gs, bx
 
     popa
     add esp, 8
@@ -95,6 +96,7 @@ irq%1:
     cli
     push byte 0
     push byte %2    ; interrupt number
+    jmp irq_common_handler
 %endmacro
 
 ISR_NO_ERROR_CODE 0
