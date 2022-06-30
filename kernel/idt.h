@@ -54,6 +54,11 @@ typedef struct
 // return: none
 void isr_handler(interrupt_handler_stack_t info);
 
+// function handlers all irq interrupts.
+// input: different data pushed to stack (interrupt_handler_stack_t)
+// return: none
+void irq_handler(interrupt_handler_stack_t info);
+
 // Interrupt service routines
 extern void isr0();
 extern void isr1();
@@ -87,5 +92,22 @@ extern void isr28();
 extern void isr29();
 extern void isr30();
 extern void isr31();
+
+extern void irq0();
+extern void irq1();
+extern void irq2();
+extern void irq3();
+extern void irq4();
+extern void irq5();
+extern void irq6();
+extern void irq7();
+extern void irq8();
+extern void irq9();
+extern void irq10();
+extern void irq11();
+extern void irq12();
+extern void irq13();
+extern void irq14();
+extern void irq15();
 
 #endif
