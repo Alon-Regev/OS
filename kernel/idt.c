@@ -5,6 +5,7 @@
 
 idt_entry idt_entries[256] = {0};
 idt_ptr idt_pointer;
+isr_t interrupt_handlers[256] = {0};
 
 void init_idt()
 {
@@ -98,6 +99,12 @@ void idt_set_gate(uint8_t num, uint32_t addr, uint16_t selector, uint8_t flags)
 void isr_handler(interrupt_handler_stack_t info)
 {
     printf("Received Interrupt: 0x%x\n", info.interruptNumber);
+
+    // call handler
+    if(interrupt_handlers[info.interruptNumber] != 0)
+    {
+        interrupt_handlers[info.interruptNumber](info);
+    }
 }
 
 void irq_handler(interrupt_handler_stack_t info)
@@ -111,4 +118,15 @@ void irq_handler(interrupt_handler_stack_t info)
     }
     // master reset signal
     port_byte_out(0x20, 0x20);
+
+    // call handler
+    if(interrupt_handlers[info.interruptNumber] != 0)
+    {
+        interrupt_handlers[info.interruptNumber](info);
+    }
+}
+
+void register_interrupt_handler(uint8_t interruptNumber, isr_t handler)
+{
+    interrupt_handlers[interruptNumber] = handler;
 }

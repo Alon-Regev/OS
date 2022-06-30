@@ -6,6 +6,19 @@
 #define KERNEL_CS 0x08
 #define IDT_ENTRY_FLAGS 0x8E
 
+#define IRQ(n) (n+32)
+
+// type for the stack's state when entering the interrupt handler
+typedef struct
+{
+    uint32_t ds;
+    uint32_t edi, esi, ebp, esp, ebx, edx, ecx, eax; // pusha
+    uint32_t interruptNumber, errorCode;            // interrupt info
+    uint32_t eip, cs, eflags, user_esp, ss;         // pushed by processor
+} interrupt_handler_stack_t;
+
+typedef void (*isr_t)(interrupt_handler_stack_t);
+
 // interrupt descriptor table entry
 struct idt_entry_struct
 {
@@ -40,15 +53,6 @@ void init_idt();
 // return: none
 void idt_set_gate(uint8_t num, uint32_t addr, uint16_t selector, uint8_t flags);
 
-// type for the stack's state when entering the interrupt handler
-typedef struct
-{
-    uint32_t ds;
-    uint32_t edi, esi, ebp, esp, ebx, edx, ecx, eax; // pusha
-    uint32_t interruptNumber, errorCode;            // interrupt info
-    uint32_t eip, cs, eflags, user_esp, ss;         // pushed by processor
-} interrupt_handler_stack_t;
-
 // function handles all interrupts.
 // input: different data pushed to stack (interrupt_handler_stack_t)
 // return: none
@@ -58,6 +62,11 @@ void isr_handler(interrupt_handler_stack_t info);
 // input: different data pushed to stack (interrupt_handler_stack_t)
 // return: none
 void irq_handler(interrupt_handler_stack_t info);
+
+// function sets up new interrupt handler.
+// input: interruptNumber, handler
+// return: none
+void register_interrupt_handler(uint8_t interruptNumber, isr_t handler);
 
 // Interrupt service routines
 extern void isr0();
