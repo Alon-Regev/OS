@@ -62,5 +62,5 @@ void idt_set_gate(uint8_t num, uint32_t addr, uint16_t selector, uint8_t flags)
 
 void isr_handler(interrupt_handler_stack_t info)
 {
-    printf("Received Interrupt: %d\n", info.interruptNumber);
+    printf("Received Interrupt: 0x%x\n", info.interruptNumber);
 }
