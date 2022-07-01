@@ -69,9 +69,9 @@ void keyboard_callback(interrupt_handler_stack_t info)
     // get char
     char c = scancodeLookupTable[scancode];
 
-    if ((uint8_t)c == SHIFT_KEY)
+    if (c == SHIFT_KEY)
         shift = keydown;
-    else if ((uint8_t)c == CTRL_KEY)
+    else if (c == CTRL_KEY)
         ctrl = keydown;
 
     if (c == KEYBOARD_ERROR)
@@ -109,23 +109,16 @@ void default_keyboard_handler(char c)
     }
 }
 
-char kgetch()
+char kbhit()
 {
-    if (keyboardBufferStart == keyboardBufferEnd)
-    {
-        // nothing to read
-        return KGETCH_ERROR;
-    }
-    return keyboardBuffer[keyboardBufferStart++];
+    return keyboardBufferStart != keyboardBufferEnd;
 }
 
 char getch()
 {
-    char c = kgetch();
-    while (c == KGETCH_ERROR)
+    while (!kbhit())
     {
         asm volatile("pause");
-        c = kgetch();
     }
-    return c;
+    return keyboardBuffer[keyboardBufferStart++];
 }

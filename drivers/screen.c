@@ -30,7 +30,7 @@ void move_cursor(int cells)
     set_cursor_offset(get_cursor_offset() + cells * 2);
 }
 
-void print_char(char c)
+void putch(char c)
 {
     uint16_t offset = get_cursor_offset();
     offset = base_char_print(c, offset);
@@ -59,18 +59,6 @@ void clear_screen()
 void set_color(Color textColor, Color backgroundColor)
 {
     currentColor = colorByte(textColor, backgroundColor);
-}
-
-void printf(char *format, ...)
-{
-    char str[256] = {0};
-    va_list args;
-    va_start(args, format);
-
-    vsprintf(str, format, args);
-    print_str(str);
-
-    va_end(args);
 }
 
 // --- private functions

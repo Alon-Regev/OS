@@ -28,10 +28,10 @@ typedef void (*keyboard_handler_t)(char);
 // return: none
 void init_keyboard();
 
-// function returns last pressed key, or error if no available key.
+// function checks whether a key press happened or not (char available in keyboard buffer).
 // input: none
 // return: char or error
-char kgetch();
+char kbhit();
 
 // function returns last pressed key. waits for input if needed.
 // input: none

@@ -1,8 +1,8 @@
+#include "../libc/io.h"
+#include "../drivers/keyboard.h"
 #include "../drivers/screen.h"
-#include "../libc/string.h"
 #include "idt.h"
 #include "timer.h"
-#include "../drivers/keyboard.h"
 
 void main()
 {
@@ -17,6 +17,6 @@ void main()
 
     while(1)
     {
-        print_char(getch());
+        putchar(getch());
     }
 }

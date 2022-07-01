@@ -54,12 +54,7 @@ void print_str(char *str);
 // function prints a char on screen at cursor position.
 // input: char to print
 // return: none
-void print_char(char c);
-
-// function prints a formatted string on screen.
-// input: format and arguments to print
-// return: none
-void printf(char *format, ...);
+void putch(char c);
 
 // function clears all text and colors from screen.
 // input: none
