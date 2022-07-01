@@ -1,6 +1,7 @@
 #include "io.h"
 #include "../drivers/screen.h"
 #include "../drivers/keyboard.h"
+#include "string.h"
 #include <stdarg.h>
 
 void printf(char *format, ...)
@@ -24,4 +25,19 @@ void puts(char *str)
 void putchar(char c)
 {
     putch(c);
+}
+
+void gets(char* buffer)
+{
+    int i = 0;
+    do
+    {
+        buffer[i] = getch();
+
+    } while (1);
+}
+
+char getchar()
+{
+    
 }

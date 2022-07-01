@@ -3,6 +3,7 @@
 #include "ports.h"
 #include "screen.h"
 #include "../libc/types.h"
+#include "../libc/queue.h"
 
 #define ERR_SCANCODE "\x80"
 #define ERSC ERR_SCANCODE
@@ -22,9 +23,8 @@ void default_keyboard_handler(char c);
 keyboard_handler_t keydown_handler = &default_keyboard_handler;
 keyboard_handler_t keyup_handler = 0;
 
-char keyboardBuffer[KEYBOARD_BUFFER_SIZE] = {0};
-uint8_t keyboardBufferStart = 0;
-uint8_t keyboardBufferEnd = 0;
+char keyboardBufferRaw[KEYBOARD_BUFFER_SIZE] = {0};
+char_queue_t keyboardBuffer = {keyboardBufferRaw, KEYBOARD_BUFFER_SIZE, 0, 0};
 
 // scancode -> ascii
 static const char scancodeLookupTable[] =
@@ -100,18 +100,12 @@ void default_keyboard_handler(char c)
 {
     if (c == KEYBOARD_ERROR)
         return;
-    // put into end of buffer
-    keyboardBuffer[keyboardBufferEnd++] = c;
-    // forget start if out of space
-    if (keyboardBufferEnd == keyboardBufferStart)
-    {
-        keyboardBufferStart++;
-    }
+    enqueue(&keyboardBuffer, c);
 }
 
 char kbhit()
 {
-    return keyboardBufferStart != keyboardBufferEnd;
+    return !empty(&keyboardBuffer);
 }
 
 char getch()
@@ -120,5 +114,5 @@ char getch()
     {
         asm volatile("pause");
     }
-    return keyboardBuffer[keyboardBufferStart++];
+    return dequeue(&keyboardBuffer);
 }

@@ -16,4 +16,14 @@ void puts(char *str);
 // return: none
 void putchar(char c);
 
+// function reads string until newline.
+// input: buffer to store string in.
+// return: none
+void gets(char* buffer);
+
+// function receives one char after newline.
+// input: none
+// return: read char
+char getchar();
+
 #endif
