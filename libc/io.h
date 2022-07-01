@@ -26,4 +26,9 @@ void gets(char* buffer);
 // return: read char
 char getchar();
 
+// function clears stdin.
+// input: none
+// return: none
+void flush();
+
 #endif

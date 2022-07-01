@@ -1,7 +1,6 @@
 #include "keyboard.h"
 #include "../kernel/idt.h"
 #include "ports.h"
-#include "screen.h"
 #include "../libc/types.h"
 #include "../libc/queue.h"
 

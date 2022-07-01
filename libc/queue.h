@@ -33,4 +33,14 @@ bool_t empty(char_queue_t *queue);
 // return: true if full
 bool_t full(char_queue_t *queue);
 
+// function erases last char (deque function)
+// input: queue pointer
+// return: none
+void erase(char_queue_t *queue);
+
+// function clears content of queue.
+// input: pointer to queue
+// return: none
+void flush_queue(char_queue_t *queue);
+
 #endif
