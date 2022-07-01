@@ -6,11 +6,16 @@
 #define KEYBOARD_LOOKUP_TABLE_LENGTH 0x39
 #define KEYUP_OFFSET 0x80
 
-#define ERR_SCANCODE "\x80"
-#define ESC_SCANCODE "\x81"
-#define CTRL_SCANCODE "\x82"
-#define SHIFT_SCANCODE "\x83"
-#define ALT_SCANCODE "\x84"
+#define KEYBOARD_ERROR (char)0x80
+#define ESC_KEY (char)0x81
+#define CTRL_KEY (char)0x82
+#define SHIFT_KEY (char)0x83
+#define ALT_KEY (char)0x84
+
+#define UP_KEY (char)0x85
+#define LEFT_KEY (char)0x86
+#define RIGHT_KEY (char)0x87
+#define DOWN_KEY (char)0x88
 
 #define KGETCH_ERROR 0
 

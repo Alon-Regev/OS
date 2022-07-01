@@ -1,7 +1,7 @@
 #ifndef TIMER_H
 #define TIMER_H
 
-#include "../libc/int_types.h"
+#include "../libc/types.h"
 
 #define BASE_FREQUENCY 1193180
 #define TIMER_IRQ 0

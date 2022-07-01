@@ -115,7 +115,7 @@ uint16_t get_col(uint16_t offset)
 // return: new offset after print
 uint16_t base_char_print(char c, uint16_t offset)
 {
-    int newOffset;
+    int newOffset = offset;
     switch (c)
     {
     case '\n':
