@@ -8,13 +8,11 @@ uint32_t tick = 0;
 void timer_callback(interrupt_handler_stack_t info)
 {
     tick++;
-    if(tick % 1000 == 0)
-        printf("Tick: %d\n", tick);
 }
 
 void init_timer(uint32_t frequency)
 {
-    register_interrupt_handler(32, &timer_callback);
+    register_interrupt_handler(IRQ(TIMER_IRQ), &timer_callback);
     
     // set frequency of PIT (Programmable Interval Timer)
     uint32_t divisor = BASE_FREQUENCY / frequency;
