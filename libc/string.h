@@ -55,9 +55,15 @@ char *ftoa(float value, char *str, int afterPoint);
 int atoi(const char *str);
 
 // creates formatted string and writes it in a buffer using a variable list
-void vsprintf(char *str, const char *format, va_list args);
+int vsprintf(char *str, const char *format, va_list args);
 
 // creates formatted string and writes it in a buffer
-void sprintf(char *str, const char *format, ...);
+int sprintf(char *str, const char *format, ...);
+
+// extracts data from formatted string.
+int vsscanf(char *str, const char *format, int* charCount, va_list args);
+
+// extracts data from formatted string.
+int sscanf(char *str, const char *format, ...);
 
 #endif

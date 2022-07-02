@@ -39,16 +39,38 @@ void update_stdin()
 
 // --- public functions
 
-void printf(char *format, ...)
+int printf(char *format, ...)
 {
     char str[256] = {0};
     va_list args;
     va_start(args, format);
 
-    vsprintf(str, format, args);
+    int ret = vsprintf(str, format, args);
     print_str(str);
 
     va_end(args);
+    return ret;
+}
+
+int scanf(char *format, ...)
+{
+    char buffer[256] = {0};
+    gets(buffer);
+
+    va_list args;
+    va_start(args, format);
+
+    int charCount = 0;
+    int ret = vsscanf(buffer, format, &charCount, args);
+    // restore stdin
+    int i = charCount;
+    while (buffer[i])
+    {
+        enqueue(&stdin, buffer[i++]);
+    }
+
+    va_end(args);
+    return ret;
 }
 
 void puts(char *str)

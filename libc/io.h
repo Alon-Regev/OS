@@ -3,8 +3,13 @@
 
 // function prints a formatted string on screen.
 // input: format and arguments to print
-// return: none
-void printf(char *format, ...);
+// return: number of chars printed
+int printf(char *format, ...);
+
+// function extracts data from input.
+// input: format and pointers to put data in
+// return: number of args filled
+int scanf(char *format, ...);
 
 // function prints string with newline char.
 // input: string to print

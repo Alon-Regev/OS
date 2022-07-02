@@ -18,14 +18,15 @@ void main()
 
     while(1)
     {
-        printf("Enter your name: ");
-        char name[16];
-        gets(name);
-        name[strcspn(name, "\n")] = 0;
-        printf("Enter favorite char: ");
-        char favorite = getchar();
+        int x, y, ret;
+        do
+        {
+            printf("Enter two numbers: ");
+            ret = scanf("%d:%d", &x, &y);
+            flush();
+        } while (ret != 2);
+        printf("x + y = %d\n", x + y);
 
-        printf("Your name is \"%s\" and you like '%c'!\n\n", name, favorite);
         flush();
     }
 }

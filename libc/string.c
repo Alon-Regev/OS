@@ -13,6 +13,11 @@ void reverse_str(char *str)
     }
 }
 
+int is_whitespace(char c)
+{
+    return c == ' ' || c == '\n' || c == '\r' || c == '\t' || c == '\b';
+}
+
 // --- public functions
 
 char *strncat(char *dest, const char *src, int n)
@@ -220,7 +225,7 @@ char *ftoa(float value, char *str, int afterPoint)
 int atoi(const char *str)
 {
     int res = 0;
- 
+
     for (int i = 0; '0' <= str[i] && str[i] <= '9'; i++)
     {
         res *= 10;
@@ -230,8 +235,9 @@ int atoi(const char *str)
     return res;
 }
 
-void vsprintf(char *str, const char *format, va_list args)
+int vsprintf(char *str, const char *format, va_list args)
 {
+    char *strStart = str;
     for (const char *p = format; *p != 0; p++)
     {
         if (*p == '%')
@@ -246,7 +252,7 @@ void vsprintf(char *str, const char *format, va_list args)
                     p++;
                     precision = atoi(p);
                 }
-                else if(i == 0)
+                else if (i == 0)
                 {
                     width = atoi(p);
                 }
@@ -269,12 +275,12 @@ void vsprintf(char *str, const char *format, va_list args)
                 itoa(va_arg(args, int), str, 16);
                 break;
             case 'f':
-                if(precision == -1)
+                if (precision == -1)
                     precision = 2;
                 ftoa(va_arg(args, double), str, precision);
                 break;
             case 's':
-                if(precision == -1)
+                if (precision == -1)
                     precision = MAX_N;
                 strncpy(str, va_arg(args, const char *), precision);
                 break;
@@ -304,14 +310,117 @@ void vsprintf(char *str, const char *format, va_list args)
             str++;
         }
     }
+    return str - strStart;
 }
 
-void sprintf(char *str, const char *format, ...)
+int sprintf(char *str, const char *format, ...)
 {
     va_list args;
     va_start(args, format);
 
-    vsprintf(str, format, args);
+    int ret = vsprintf(str, format, args);
 
     va_end(args);
+    return ret;
+}
+
+int vsscanf(char *str, const char *format, int *charCount, va_list args)
+{
+    int ret = 0;
+    const char *strStart = str;
+    int i = 0;
+    // skip whitespace
+    while(is_whitespace(*str))
+    {
+        str++;
+    }
+    // parse format
+    while (*str && *format)
+    {
+        if (*format == '%')
+        {
+            format++;
+            // get width
+            int width = -1;
+            if('0' <= *format && *format <= '9')
+                width = atoi(format);
+            while ('0' <= *format && *format <= '9')
+                format++;
+            char *end = str + width;
+            char temp = *end;
+            if (width != -1)
+            {
+                *end = 0;
+            }
+            switch (*(format++))
+            {
+            case 's':
+            {
+                // read until whitespace
+                char *arg = va_arg(args, char *);
+                while (*str && !is_whitespace(*str))
+                {
+                    *arg = *str;
+                    arg++;
+                    str++;
+                }
+                *arg = 0;
+                break;
+            }
+            case 'c':
+                *va_arg(args, char *) = *str;
+                str++;
+                break;
+            case 'd':
+                if(*str < '0' || '9' < *str)
+                    goto vsscanf_ret;
+                *va_arg(args, int *) = atoi(str);
+                // skip digits
+                while('0' <= *str && *str <= '9')
+                    str++;
+                break;
+            default:
+                break;
+            }
+            ret++;
+            // restore end
+            *end = temp;
+        }
+        else
+        {
+            if (*format == ' ')
+            {
+                // skip whitespace
+                while (is_whitespace(*str))
+                {
+                    str++;
+                }
+                format++;
+            }
+            else if (*format != *str)
+            {
+                goto vsscanf_ret;
+            }
+            else
+            {
+                format++;
+                str++;
+            }
+        }
+    }
+vsscanf_ret:
+    if (charCount)
+        *charCount = str - strStart;
+    return ret;
+}
+
+int sscanf(char *str, const char *format, ...)
+{
+    va_list args;
+    va_start(args, format);
+
+    int ret = vsscanf(str, format, 0, args);
+
+    va_end(args);
+    return ret;
 }
