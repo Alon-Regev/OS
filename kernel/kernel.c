@@ -3,6 +3,7 @@
 #include "../drivers/screen.h"
 #include "../libc/string.h"
 #include "idt.h"
+#include "paging.h"
 #include "timer.h"
 
 void main()
@@ -13,8 +14,11 @@ void main()
 
     clear_screen();
     set_cursor(0, 0);
+    
+    init_paging();
 
     printf("Hello world!\n\n");
+
 
     while(1)
     {
@@ -26,7 +30,7 @@ void main()
             flush();
         } while (ret != 2);
         printf("x + y = %d\n", x + y);
-
-        flush();
     }
+    
+    PANIC("END");
 }

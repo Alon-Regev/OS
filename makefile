@@ -18,7 +18,7 @@ KERNEL_HEADERS := $(wildcard $(KERNEL_DIR)/*.h $(DRIVERS_DIR)/*.h $(HELPERS_DIR)
 KERNEL_OBJECTS := $(KERNEL_SOURCES:.c=.o) $(KERNEL_ASM:.asm=.o)
 
 %.o: %.c $(KERNEL_HEADERS)
-	@gcc -g -m32 -nostdlib -ffreestanding -c $< -o $@ -fno-pic
+	@gcc -g -m32 -nostdlib -nostdinc -ffreestanding -O3 -c $< -o $@ -fno-pic
 
 %.o: %.asm
 	@nasm $< -f elf -o $@

@@ -4,7 +4,12 @@
 #define MAX_N __INT32_MAX__
 #define NULL 0
 
-#include <stdarg.h>
+typedef __builtin_va_list va_list;
+/* but you’re not allowed to use the name `va_arg`, technically */
+#define va_start __builtin_va_start
+#define va_end __builtin_va_end
+#define va_copy __builtin_va_copy
+#define va_arg __builtin_va_arg
 
 // appends up to <n> chars from src to string dest. returns dest.
 char* strncat(char *dest, const char *src, int n);

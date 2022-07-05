@@ -3,7 +3,6 @@
 #include "../drivers/keyboard.h"
 #include "string.h"
 #include "queue.h"
-#include <stdarg.h>
 
 char stdinRaw[256] = {0};
 char_queue_t stdin = {stdinRaw, 256, 0, 0};

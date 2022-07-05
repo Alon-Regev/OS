@@ -21,7 +21,7 @@ init_protected_mode:
     mov fs, ax
     mov gs, ax
     ; update stack
-    mov ebp, 0x90000
+    mov ebp, 0x50000
     mov esp, ebp
 
     ; jmp to kernel entry
