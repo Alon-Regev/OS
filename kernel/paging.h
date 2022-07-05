@@ -48,7 +48,8 @@ void switch_page_directory(page_directory_t *directory);
 // return: pointer to page
 page_t *get_page(uint32_t address, bool_t make, page_directory_t *directory);
 
-void page_fault(interrupt_handler_stack_t info);
+// page fault handler
+void page_fault(interrupt_handler_stack_t* info);
 
 // alocate a free frame
 // input: page pointer to fill, flags (kernel, writeable)

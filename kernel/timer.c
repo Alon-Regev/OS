@@ -5,7 +5,7 @@
 
 uint32_t tick = 0;
 
-void timer_callback(interrupt_handler_stack_t info)
+void timer_callback(interrupt_handler_stack_t* info)
 {
     tick++;
 }

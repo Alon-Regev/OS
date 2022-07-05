@@ -143,7 +143,7 @@ page_t *get_page(uint32_t address, bool_t make, page_directory_t *directory)
     }
 }
 
-void page_fault(interrupt_handler_stack_t info)
+void page_fault(interrupt_handler_stack_t* info)
 {
     uint32_t faultAddress;
     // read address from cr2
@@ -152,19 +152,19 @@ void page_fault(interrupt_handler_stack_t info)
 
     // check error bits
     printf("Page fault! ( ");
-    if (!(info.errorCode & 0x1))
+    if (!(info->errorCode & 0x1))
     {
         printf("present ");
     }
-    if (info.errorCode & 0x2)
+    if (info->errorCode & 0x2)
     {
         printf("read-only ");
     }
-    if (info.errorCode & 0x4)
+    if (info->errorCode & 0x4)
     {
         printf("user-mode ");
     }
-    if (info.errorCode & 0x10)
+    if (info->errorCode & 0x10)
     {
         printf("reserved ");
     }

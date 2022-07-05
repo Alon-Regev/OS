@@ -7,15 +7,14 @@ int queueIndex(char_queue_t* queue, int index)
 
 void enqueue(char_queue_t* queue, char c)
 {
-    queue->buffer[queue->endIndex] = c;
-    // mov end
-    queue->endIndex = queueIndex(queue, queue->endIndex + 1);
-    // forget start if out of space
-    if (queue->endIndex == queue->startIndex)
+    if (full(queue))
     {
         // move start
         queue->startIndex = queueIndex(queue, queue->startIndex + 1);
     }
+    // add to end
+    queue->buffer[queue->endIndex] = c;
+    queue->endIndex = queueIndex(queue, queue->endIndex + 1);
 }
 
 char dequeue(char_queue_t* queue)

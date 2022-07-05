@@ -45,7 +45,7 @@ static const char shiftScancodeLookupTable[] =
 bool_t shift = FALSE;
 bool_t ctrl = FALSE;
 
-void keyboard_callback(interrupt_handler_stack_t info)
+void keyboard_callback(interrupt_handler_stack_t* info)
 {
     // read scancode from input port
     uint8_t scancode = port_byte_in(SCANCODE_PORT);
@@ -93,6 +93,7 @@ void keyboard_callback(interrupt_handler_stack_t info)
 void init_keyboard()
 {
     register_interrupt_handler(IRQ(KEYBOARD_IRQ), &keyboard_callback);
+    shift = ctrl = FALSE;
 }
 
 void default_keyboard_handler(char c)
@@ -111,7 +112,7 @@ char getch()
 {
     while (!kbhit())
     {
-        asm volatile("pause");
+        asm("pause");
     }
     return dequeue(&keyboardBuffer);
 }

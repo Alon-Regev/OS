@@ -12,18 +12,19 @@ char_queue_t stdin = {stdinRaw, 256, 0, 0};
 // funtion returns true if char should be ignored by stdin.
 bool_t stdin_ignore(char c)
 {
-    return (uint8_t)c >= 0x80;
+    return (uint8_t)c >= 0x80 || c == '\b';
 }
 
 void update_stdin()
 {
+    char_queue_t *ptr = &stdin;
     // updates occure at newline
     char c;
     do
     {
         c = getch();
         // check special chars
-        if(c == '\b')
+        if(c == '\b' && !empty(&stdin))
         {
             erase(&stdin);
             printf("\b \b");    // erase from screen

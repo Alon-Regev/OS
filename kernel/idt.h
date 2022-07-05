@@ -17,7 +17,7 @@ typedef struct
     uint32_t eip, cs, eflags, user_esp, ss;         // pushed by processor
 } interrupt_handler_stack_t;
 
-typedef void (*isr_t)(interrupt_handler_stack_t);
+typedef void (*isr_t)(interrupt_handler_stack_t*);
 
 // interrupt descriptor table entry
 struct idt_entry_struct

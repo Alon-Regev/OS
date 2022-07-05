@@ -104,7 +104,7 @@ void isr_handler(interrupt_handler_stack_t info)
     // call handler
     if(interrupt_handlers[info.interruptNumber] != 0)
     {
-        interrupt_handlers[info.interruptNumber](info);
+        interrupt_handlers[info.interruptNumber](&info);
     }
 }
 
@@ -123,7 +123,7 @@ void irq_handler(interrupt_handler_stack_t info)
     // call handler
     if(interrupt_handlers[info.interruptNumber] != 0)
     {
-        interrupt_handlers[info.interruptNumber](info);
+        interrupt_handlers[info.interruptNumber](&info);
     }
 }
 
