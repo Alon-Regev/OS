@@ -5,6 +5,7 @@
 #include "idt.h"
 #include "paging.h"
 #include "timer.h"
+#include "../libc/ordered_array.h"
 
 void main()
 {
@@ -14,13 +15,24 @@ void main()
 
     clear_screen();
     set_cursor(0, 0);
-    
+
     init_paging();
 
     printf("Hello world!\n\n");
+    // check ordered array
+    ordered_array_t arr = create_ordered_array(1000, NULL);
+    for (uint32_t i = 0; i < arr.max_size; i++)
+    {
+        uint32_t bad_rand = ((i ^ 0x0112358D) << (i % 4)) + i;
+        insert_ordered_array(&arr, (type_t)(bad_rand % 256));
+    }
 
+    for (int i = 0; i < arr.size; i++)
+    {
+        printf("hi: %d\n", lookup_ordered_array(&arr, i));
+    }
 
-    while(1)
+    while (1)
     {
         int x, y, ret;
         do
@@ -31,6 +43,6 @@ void main()
         } while (ret != 2);
         printf("x + y = %d\n", x + y);
     }
-    
+
     PANIC("END");
 }

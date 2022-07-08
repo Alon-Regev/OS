@@ -3,6 +3,7 @@
 
 #include "../libc/types.h"
 #include "idt.h"
+#include "../libc/io.h"
 
 #define IDENTITY_MAPPING_LIMIT 0x100000
 

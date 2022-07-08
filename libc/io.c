@@ -50,6 +50,7 @@ int printf(char *format, ...)
 
     va_end(args);
     return ret;
+    return 0;
 }
 
 int scanf(char *format, ...)
