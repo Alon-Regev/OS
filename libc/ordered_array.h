@@ -9,26 +9,26 @@
         PANIC("Assert failed"); \
     }
 
-typedef void *type_t;
-typedef bool_t (*lessthan_predicate_t)(type_t, type_t);
+typedef int (*comparator_t)(void*, void*);
 
 typedef struct
 {
-    type_t *array;
+    void *array;
     uint32_t size;
     uint32_t max_size;
-    lessthan_predicate_t lessthan_predicate;
+    uint32_t element_size;
+    comparator_t comparator;
 } ordered_array_t;
 
 // creates a new ordered array.
 // input: max size, comparator
 // return: new ordered array
-ordered_array_t create_ordered_array(uint32_t max_size, lessthan_predicate_t lessthan_predicate);
+ordered_array_t create_ordered_array(uint32_t max_size, uint32_t element_size, comparator_t comparator);
 
 // inserts an item into an ordered array.
-// input: ordered array ptr, item to insert
+// input: ordered array ptr, ptr to item to insert
 // return: none
-void insert_ordered_array(ordered_array_t *array, type_t item);
+void insert_ordered_array(ordered_array_t *array, void* item_ptr);
 
 // removes an item into an ordered array.
 // input: ordered array ptr, item index to delete
@@ -37,7 +37,12 @@ void remove_ordered_array(ordered_array_t *array, uint32_t i);
 
 // looks up item at index <i> of ordered array.
 // input: ordered array ptr, item index to find
-// return: item found
-type_t lookup_ordered_array(ordered_array_t *array, uint32_t i);
+// return: ptr to item found
+void* lookup_ordered_array(ordered_array_t *array, uint32_t i);
+
+// finds item <x> closest to item <i> (x >= i)
+// input: array ptr, item to compare to
+// output: index of closest item
+int find_ordered_array(ordered_array_t *array, void *item_ptr);
 
 #endif

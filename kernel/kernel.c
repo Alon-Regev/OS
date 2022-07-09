@@ -20,16 +20,28 @@ void main()
 
     printf("Hello world!\n\n");
     // check ordered array
-    ordered_array_t arr = create_ordered_array(1000, NULL);
-    for (uint32_t i = 0; i < arr.max_size; i++)
-    {
-        uint32_t bad_rand = ((i ^ 0x0112358D) << (i % 4)) + i;
-        insert_ordered_array(&arr, (type_t)(bad_rand % 256));
-    }
+    ordered_array_t arr = create_ordered_array(20, sizeof(uint32_t), NULL);
+    uint32_t x = 4;
+    insert_ordered_array(&arr, &x);
+    x = 7;
+    insert_ordered_array(&arr, &x);
+    x = 2;
+    insert_ordered_array(&arr, &x);
+    x = 8;
+    insert_ordered_array(&arr, &x);
+    x = 0;
+    insert_ordered_array(&arr, &x);
+    x = 6;
+    insert_ordered_array(&arr, &x);
+    x = 1500;
+    insert_ordered_array(&arr, &x);
+    x = 1400;
+    insert_ordered_array(&arr, &x);
+
 
     for (int i = 0; i < arr.size; i++)
     {
-        printf("hi: %d\n", lookup_ordered_array(&arr, i));
+        printf("hi: %d\n", *(uint32_t*)lookup_ordered_array(&arr, i));
     }
 
     while (1)
